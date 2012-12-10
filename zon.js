@@ -145,9 +145,13 @@
     session = Object.create(tmp);
     session.type = sessionStorage;
     
+    function generateId() {
+        return Date.now() + '' + Math.round(Math.random()*1e9);
+    }
+    
     var tmpTbl = {
         insert: function(row) {
-            var id = Date.now();
+            var id = generateId();
             local.set(this.tbname + '|' + id, row);
             return id;
         },
