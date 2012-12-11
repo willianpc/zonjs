@@ -19,23 +19,23 @@ Examples
 ------------------------
 
 **Adding a new row to the user table**
-
+```javascript
 zon('user').insert({name: 'Willian', email: 'o.chambs@gmail.com'});
-
+```
 If the table doesn't exist, it will be created. The row id will be returned by the insert function
 
 **Removing a row from the user table**
-
+```javascript
 zon('user').del(8739874397494);
-
+```
 **Listing all rows from the product table**
-
+```javascript
 zon('product').all(); // returns a map object containing key/value for each row
-
+```
 **Retrieving a row from the product table**
-
+```javascript
 var product = zon('product').findOne(4545498504854);
-
+```
 Notes
 ------------------------
 
