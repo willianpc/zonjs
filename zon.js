@@ -41,26 +41,12 @@
       };
       window.localStorage.length = (document.cookie.match(/\=/g) || window.localStorage).length;
       
-      window.sessionStorage = Object.create(window.localStorage);
-      window.sessionStorage.setItem = function (sKey, sValue) {
-          if(!sKey) { return; }
-          document.cookie = escape(sKey) + "=" + escape(sValue) + "; path=/";
-          this.length = document.cookie.match(/\=/g).length;
-      };
-        
-      window.sessionStorage.removeItem = function (sKey) {
-          if (!sKey || !this.hasOwnProperty(sKey)) { return; }
-          document.cookie = escape(sKey) + "=; path=/";
-          this.length--;
-      };
-      
-      window.sessionStorage.length = (document.cookie.match(/\=/g) || window.sessionStorage).length;
     }
 
-    var local, session;
+    var local;
 
     function all() {
-        var result = {}, obj, k, arrResult = [];
+        var result = {}, obj, k;
 
         for(var i=0; i < this.type.length; i++) {
             k = this.type.key(i);
@@ -70,36 +56,10 @@
             } catch(err) {
                 obj = this.type.getItem(k);
             }
-            arrResult.push(obj);
             result[k] = obj;
         }
         
-        if(Object.defineProperty) {
-            Object.defineProperty(result, 'toArray', {
-                value: function() {
-                    return arrResult.slice();
-                }
-            });
-        }
-        
         return result;
-    }
-
-    function toArray() {
-        var obj, k, arrResult = [];
-
-        for(var i=0; i < this.type.length; i++) {
-            k = this.type.key(i);
-
-            try {
-                obj = JSON.parse(this.type.getItem(k));
-            } catch(err) {
-                obj = this.type.getItem(k);
-            }
-            arrResult.push(obj);
-        }
-        
-        return arrResult.slice();
     }
 
     function get(k) {
@@ -130,20 +90,14 @@
         return this.type.length;
     }
 
-    var tmp = {
+    local = {
+        type: localStorage,
         all: all,
         get: get,
         set: insert,
         del: remove,
-        size: size,
-        list: toArray
+        size: size
     };
-    
-    local = Object.create(tmp);
-    local.type = localStorage;
-    
-    session = Object.create(tmp);
-    session.type = sessionStorage;
     
     function generateId() {
         return Date.now() + '' + Math.round(Math.random()*1e9);
