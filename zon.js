@@ -40,23 +40,23 @@
         }
       };
       window.localStorage.length = (document.cookie.match(/\=/g) || window.localStorage).length;
-      
     }
 
-    var local;
-
     function all() {
-        var result = {}, obj, k;
+        var result = {}, obj, k, offset;
 
-        for(var i=0; i < this.type.length; i++) {
-            k = this.type.key(i);
+        for(var i=0; i < localStorage.length; i++) {
+            k = localStorage.key(i);
+            offset = k.indexOf(this.tbname + '|');
 
-            try {
-                obj = JSON.parse(this.type.getItem(k));
-            } catch(err) {
-                obj = this.type.getItem(k);
+            if(offset > -1) {
+                try {
+                    obj = JSON.parse(localStorage.getItem(k));
+                } catch(err) {
+                    obj = localStorage.getItem(k);
+                }
+                result[k] = obj;
             }
-            result[k] = obj;
         }
         
         return result;
@@ -66,81 +66,47 @@
         var obj;
 
         try {
-            obj = JSON.parse(this.type.getItem(k));
+            obj = JSON.parse(localStorage.getItem(this.tbname + '|' + k));
         } catch(err) {
-            obj = this.type.getItem(k);
+            obj = localStorage.getItem(this.tbname + '|' + k);
         }
         return obj;
     }
 
-    function insert(id, data) {
+    function insert(data) {
+        var id = generateId();
+    
         if(typeof(data) === 'object') {
             data = JSON.stringify(data);
         }
 
-        this.type.setItem(id, data);
+        localStorage.setItem(this.tbname + '|' + id, data);
         return id;
     }
     
     function remove(id) {
-        this.type.removeItem(id);
+        localStorage.removeItem(this.tbname + '|' + id);
     }
-    
-    function size() {
-        return this.type.length;
-    }
-
-    local = {
-        type: localStorage,
-        all: all,
-        get: get,
-        set: insert,
-        del: remove,
-        size: size
-    };
     
     function generateId() {
         return Date.now() + '' + Math.round(Math.random()*1e9);
     }
     
     var tmpTbl = {
-        insert: function(row) {
-            var id = generateId();
-            local.set(this.tbname + '|' + id, row);
-            return id;
-        },
-        
-        findOne: function(id) {
-            return local.get(this.tbname + '|' + id);
-        },
-        
-        del: function(id) {
-            local.del(this.tbname + '|' + id);
-        },
-        
-        all: function() {
-            var result = {};
-            var all = local.all();
-            var offset, keyLen;
-            
-            for(var k in all) {
-                offset = k.indexOf(this.tbname + '|');
-                keyLen = this.tbname.length+1;
-                
-                if(offset > -1) {
-                    result[k.substr(keyLen)] = all[k];
-                }
-            }
-            return result;
-        }
-        
+        insert: insert,
+        add: insert,
+        set: insert,
+        findOne: get,
+        get: get,
+        del: remove,
+        remove: remove,
+        all: all
     };
     
     //stores table objects already called
     var cachedTables = {};
     
     function tbls(tableName) {
-    
         if(tableName in cachedTables) {
             return cachedTables[tableName];
         }
