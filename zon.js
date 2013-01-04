@@ -61,6 +61,27 @@
         
         return result;
     }
+    
+    function iterate(fn) {
+        var result = {}, obj, k, offset;
+
+        for(var i=0; i < localStorage.length; i++) {
+            k = localStorage.key(i);
+            offset = k.indexOf(this.tbname + '|');
+
+            if(offset > -1) {
+                try {
+                    obj = JSON.parse(localStorage.getItem(k));
+                } catch(err) {
+                    obj = localStorage.getItem(k);
+                }
+                
+                fn(i, k.indexOf('|')+1, obj);
+            }
+        }
+        
+        return result;
+    }
 
     function get(k) {
         var obj;
@@ -100,7 +121,9 @@
         get: get,
         del: remove,
         remove: remove,
-        all: all
+        all: all,
+        iterate: iterate,
+        each: iterate
     };
     
     //stores table objects already called
