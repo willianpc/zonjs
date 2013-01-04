@@ -10,11 +10,11 @@ zonJS is a mutation of my previous API miniDB and is intended to be a way of man
 How to use
 -----------------------
 
- * zon(NAMESPACE).insert(rowAsJSON);
- * zon(NAMESPACE).findOne(rowId);
+ * zon(NAMESPACE).insert(rowAsJSON). Aliases: add, set;
+ * zon(NAMESPACE).findOne(rowId). Alias: get;
  * zon(NAMESPACE).all();
- * zon(NAMESPACE).del(rowId);
- * zon(NAMESPACE).each(function(index, rowId, data) {});
+ * zon(NAMESPACE).del(rowId). Alias: remove;
+ * zon(NAMESPACE).each(function(index, rowId, data) {}). Alias: iterate;
 
 Examples
 ------------------------
