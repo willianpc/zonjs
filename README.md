@@ -1,41 +1,52 @@
 zonJS
 =====
 
-**zonJS** is a table like framework for using with the Storage API
+**zonJS** is a namespace based framework for using with the Storage API
 
 It is inspired by a good friend and great DBA Javier Tomas Zon
 
-zonJS is a mutation of my previus API miniDB and is intended to be a way of manipulating Storage API data in a fancy way, like if you had working with a regular table.
+zonJS is a mutation of my previous API miniDB and is intended to be a way of manipulating LocalStorage API data in a fancy way, like if you had working with a regular table.
 
 How to use
 -----------------------
 
- * zon(TABLE_NAME).insert(rowAsJSON);
- * zon(TABLE_NAME).findOne(rowId);
- * zon(TABLE_NAME).all();
- * zon(TABLE_NAME).del(rowId);
+ * zon(NAMESPACE).insert(rowAsJSON);
+ * zon(NAMESPACE).findOne(rowId);
+ * zon(NAMESPACE).all();
+ * zon(NAMESPACE).del(rowId);
+ * zon(NAMESPACE).each(function(index, rowId, data) {});
 
 Examples
 ------------------------
 
-**Adding a new row to the user table**
+**Adding a new row to the user namespace**
 ```javascript
 zon('user').insert({name: 'Willian', email: 'o.chambs@gmail.com'});
 ```
-If the table doesn't exist, it will be created. The row id will be returned by the insert function
+If the namespace storage doesn't exist, it will be created. The row id will be returned by the insert function
 
-**Removing a row from the user table**
+**Removing a row from the user namespace**
 ```javascript
 zon('user').del('8739874397494');
 ```
-**Listing all rows from the product table**
+**Listing all rows from the product namespace**
 ```javascript
 zon('product').all(); // returns a map object containing key/value for each row
 ```
-**Retrieving a row from the product table**
+**Retrieving a row from the product namespace**
 ```javascript
 var product = zon('product').findOne('4545498504854');
 ```
+
+**Iterating all rows from the users namespace**
+```javascript
+function listUsers(index, rowId, data) {
+  console.log((index+1) + " - " + data.name);
+}
+
+zon('users').each(listUsers);
+```
+
 Notes
 ------------------------
 
