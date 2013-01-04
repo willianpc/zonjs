@@ -55,7 +55,7 @@
                 } catch(err) {
                     obj = localStorage.getItem(k);
                 }
-                result[k] = obj;
+                result[k.substr(k.indexOf('|')+1)] = obj;
             }
         }
         
