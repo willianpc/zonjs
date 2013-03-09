@@ -94,8 +94,10 @@
         return obj;
     }
 
-    function insert(data) {
-        var id = generateId();
+    function insert(data, id) {
+        if(!id) {
+            id = generateId();
+        }
     
         if(typeof(data) === 'object') {
             data = JSON.stringify(data);
@@ -107,6 +109,15 @@
     
     function remove(id) {
         localStorage.removeItem(this.tbname + '|' + id);
+    }
+    
+    function update(id, data) {
+
+        if(typeof(data) === 'object') {
+            data = JSON.stringify(data);
+        }
+
+        localStorage.setItem(this.tbname + '|' + id, data);
     }
     
     function generateId() {
@@ -123,7 +134,8 @@
         remove: remove,
         all: all,
         iterate: iterate,
-        each: iterate
+        each: iterate,
+        update: update
     };
     
     //stores table objects already called
