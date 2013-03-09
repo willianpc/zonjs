@@ -76,7 +76,7 @@
                     obj = localStorage.getItem(k);
                 }
                 
-                fn(i, k.indexOf('|')+1, obj);
+                fn(i, k.substr(k.indexOf('|')+1, k.length), obj);
             }
         }
         
