@@ -62,6 +62,22 @@
         return result;
     }
     
+    function size() {
+        var k, offset;
+        var count = 0;
+
+        for(var i=0; i < localStorage.length; i++) {
+            k = localStorage.key(i);
+            offset = k.indexOf(this.tbname + '|');
+
+            if(offset > -1) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
     function iterate(fn) {
         var result = {}, obj, k, offset;
 
@@ -135,7 +151,9 @@
         all: all,
         iterate: iterate,
         each: iterate,
-        update: update
+        update: update,
+        size: size,
+        length: size
     };
     
     //stores table objects already called
