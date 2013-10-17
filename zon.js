@@ -1,6 +1,6 @@
 'use strict';
 
-;var zon = (function(document, window, undefined) {
+(function(document, window, undefined) {
 
     //Object.create polyfill
     if (!Object.create) {
@@ -170,5 +170,5 @@
         return obj;
     }
     
-    return tbls;
+    window.zon = tbls;
 })(document, window);
