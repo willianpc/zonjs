@@ -1,0 +1,26 @@
+{
+  "name": "chambs/zonjs",
+  "version": "1.0.0",
+  "homepage": "https://github.com/chambs/zonjs",
+  "description": "zonjs offers a simple way to deal with localstorage API by working with namespaces and handling objects for you",
+  "main": "zon.js",
+  "keywords": [
+    "zon.js",
+    "local",
+    "storage",
+    "local",
+    "storage",
+    "api"
+  ],
+  "authors": [
+    "Willian Carvalho"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
